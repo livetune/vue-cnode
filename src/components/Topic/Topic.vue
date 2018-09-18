@@ -3,7 +3,8 @@
        style="padding: 15px 18px;">
     <h2 class="topic-title">{{topicData.title}}</h2>
     <div class="topic-msg">
-      <div class="left">
+      <div class="left"
+           @click="$router.push('/user/'+topicData.author.loginname)">
         <img :src="topicData.author.avatar_url||''"
              alt="">
         <div>
@@ -29,7 +30,8 @@
              :reply=val
              :author_name=topicData.author.loginname
              :topicId=topicId
-             :fetchTopic=fetchTopic></reply>
+             :fetchTopic=fetchTopic
+             @click.native="$router.push('/user/'+val.author.loginname)"></reply>
     </div>
 
     <ReplyPublish v-if="this.$store.state.user.loginname"
@@ -38,8 +40,7 @@
   </div>
 </template>
 <script>
-import 'github-markdown-css'
-import '../../assets/style/markdown.css'
+
 import { calTime, titleVal } from '../../util/util.js'
 import Reply from './Reply'
 import marked from '../../util/marked.js'

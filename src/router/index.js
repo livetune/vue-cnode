@@ -7,6 +7,8 @@ import About from '@/components/About/About'
 import Topic from '@/components/Topic/Topic'
 import Login from '@/components/Login/Login'
 import Publish from '@/components/Publish/Publish'
+import User from '@/components/User/User'
+import Messages from '@/components/Messages/Messages'
 Vue.use(Router)
 
 const router = new Router({
@@ -38,6 +40,16 @@ const router = new Router({
         requireAuth: true
       },
       component: Publish
+    },
+    {
+      path: '/user/:loginname',
+      name: 'User',
+      component: User
+    },
+    {
+      path: '/messages',
+      name: 'Messages',
+      component: Messages
     }
   ]
 })

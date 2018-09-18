@@ -21,7 +21,7 @@
       <div slot="drawer">
         <group style="margin-top:20px;">
           <cell is-link
-                :link="userInfo.loginname?'':'/login'">
+                :link="userInfo.loginname?'/user/livetune':'/login'">
             <span class="avatar-wrapper"
                   slot="title">
 
@@ -67,6 +67,13 @@
                      @click.native="changeTitle('测试')">
           </menu-cell>
         </group>
+        <group style="margin-top:20px;">
+          <menu-cell iconClass='icon-notice'
+                     link="/messages"
+                     title="测试"
+                     @click.native="changeTitle('测试')">
+          </menu-cell>
+        </group>
       </div>
 
       <!-- rourer-view 作为默认插槽内容 -->
@@ -86,7 +93,8 @@ import MenuCell from './components/MenuCell'
 import './assets/iconfont/iconfont.css'
 import { titleVal } from './util/util.js'
 import defaultAvatar from './assets/default_avatar.png'
-
+import 'github-markdown-css'
+import './assets/style/markdown.css'
 export default {
   name: 'app',
   data () {
@@ -171,7 +179,7 @@ html {
       position: absolute;
       left: 0;
       right: 0;
-      top: 50px;
+      top: 46px;
       bottom: 0;
       overflow: auto;
     }
