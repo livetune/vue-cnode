@@ -1,14 +1,14 @@
 <template>
-  <div class="menu-cell weui-cell">
 
-    <router-link :to="link">
-      <i class="iconfont"
-         :class="iconClass"> {{title}}
+  <router-link tag='div'
+               class="menu-cell weui-cell"
+               :to="link">
+    <i class="iconfont"
+       :class="iconClass"> {{title}}
 
-      </i>
-    </router-link>
+    </i>
+  </router-link>
 
-  </div>
 </template>
 <script>
 export default {

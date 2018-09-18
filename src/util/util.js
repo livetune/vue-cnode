@@ -15,15 +15,16 @@ export const titleVal = {
   ask: '问答',
   about: '关于',
   topic: '主题',
-  message: '消息'
+  message: '消息',
+  dev: '测试'
 }
 
 export function calTime (time) {
   let now = Date.now()
   let last = new Date(time).getTime()
-  let distance = ((now - last) / 1000) >>> 0
+  let distance = ((now - last) / 1000) >> 0
   if (distance > 12 * 30 * 24 * 60 * 60) {
-    return (distance / 12 / 30 / 24 / 60 / 60) >>> (0 + '年前')
+    return ((distance / 12 / 30 / 24 / 60 / 60) >>> 0) + '年前'
   } else if (distance > 30 * 24 * 60 * 60) {
     return ((distance / 30 / 24 / 60 / 60) >>> 0) + '月前'
   } else if (distance > 7 * 24 * 60 * 60) {
@@ -34,6 +35,8 @@ export function calTime (time) {
     return ((distance / 60 / 60) >>> 0) + '小时前'
   } else if (distance > 60) {
     return ((distance / 60) >>> 0) + '分钟前'
+  } else if (distance < 0) {
+    return '刚刚'
   } else {
     return distance + '秒前'
   }

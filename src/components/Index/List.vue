@@ -26,7 +26,7 @@
   </section>
 </template>
 <script>
-import { filterTag, titleVal, calTime } from '../../util/filter.js'
+import { filterTag, titleVal, calTime } from '../../util/util.js'
 export default {
   props: {
     itemData: Object

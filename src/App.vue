@@ -1,14 +1,18 @@
 <template>
   <div id="app">
     <x-header style="width: 100%; position: fixed; left: 0px; top: 0px; z-index: 100;"
-              :left-options="{showBack:false}"
-              :right-options="{showMore: true}">
+              :left-options="{showBack:false}">
       <span class="nav-icon"
             @click="drawerVisibility = !drawerVisibility">
         <x-icon type="navicon"
                 size="35"
                 style="fill:#fff;position:relative;top:-8px;left:-3px;"></x-icon>
       </span>
+      <router-link to='/Publish'
+                   tag="i"
+                   slot="right"
+                   class="iconfont icon-fabu"
+                   style="font-size:1.5em"></router-link>
       {{title}}
     </x-header>
     <drawer width="200px;"
@@ -16,9 +20,19 @@
 
       <div slot="drawer">
         <group style="margin-top:20px;">
-          <menu-cell iconClass='icon-menu'
-                     link="/about"
-                     title="全部">sadsad</menu-cell>
+          <cell is-link
+                :link="userInfo.loginname?'':'/login'">
+            <span class="avatar-wrapper"
+                  slot="title">
+
+              <img width="40"
+                   :src="userInfo.avatar_url?userInfo.avatar_url:defaultAvatar
+"
+                   alt="">
+              <span class="loninname"
+                    style="vertical-align:middle;">{{userInfo.loginname?userInfo.loginname:'登录'}}</span>
+            </span>
+          </cell>
 
         </group>
         <group style="margin-top:20px;">
@@ -47,13 +61,18 @@
                      title="招聘"
                      @click.native="changeTitle('招聘')">
           </menu-cell>
-
+          <menu-cell iconClass='icon-peoples'
+                     link="/?tab=dev"
+                     title="测试"
+                     @click.native="changeTitle('测试')">
+          </menu-cell>
         </group>
       </div>
 
       <!-- rourer-view 作为默认插槽内容 -->
-      <div class="view">
-        <router-view></router-view>
+      <div class="view"
+           ref="view">
+        <router-view :changeTitle=changeTitle></router-view>
       </div>
 
     </drawer>
@@ -65,7 +84,8 @@
 import { Drawer, Group, Cell, XHeader } from 'vux'
 import MenuCell from './components/MenuCell'
 import './assets/iconfont/iconfont.css'
-import { titleVal } from './util/filter.js'
+import { titleVal } from './util/util.js'
+import defaultAvatar from './assets/default_avatar.png'
 
 export default {
   name: 'app',
@@ -73,7 +93,9 @@ export default {
     return {
       drawerVisibility: false,
       title: '全部',
-      listData: []
+      listData: [],
+      userInfo: this.$store.state.user,
+      defaultAvatar
     }
   },
   components: {
@@ -89,9 +111,9 @@ export default {
         this.title = titleVal[this.$route.query.tab]
       }
     }
+    // this.$store.dispatch('user/getUserInfo', '79ee634f-b930-4198-b5c4-0b0ce52c0b7a')
   },
   methods: {
-
     changeTitle (title) {
       this.title = title
       this.drawerVisibility = false
@@ -120,6 +142,7 @@ html {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
+  touch-action: none;
   #app {
     height: 100%;
     .nav-icon {
@@ -127,7 +150,19 @@ html {
       left: 16px;
       top: 13px;
     }
-
+    .avatar-wrapper {
+      img {
+        vertical-align: middle;
+      }
+      font-size: 14px;
+      .loninname {
+        display: inline-block;
+        max-width: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
     .vux-drawer-content {
       background: #17c3cf;
       z-index: 101;

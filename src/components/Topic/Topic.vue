@@ -1,5 +1,6 @@
 <template>
-  <div style="padding: 15px 18px;">
+  <div class="topic"
+       style="padding: 15px 18px;">
     <h2 class="topic-title">{{topicData.title}}</h2>
     <div class="topic-msg">
       <div class="left">
@@ -22,26 +23,47 @@
       <b>{{topicData.reply_count}}</b> 回复</h4>
     <div class="reply-wrapper"
          v-for="(val,key) in topicData.replies"
-         :key=key>
-      <reply :reply=val :author_name=topicData.author.loginname></reply>
+         :key=val.id>
+
+      <reply :floor=key
+             :reply=val
+             :author_name=topicData.author.loginname
+             :topicId=topicId
+             :fetchTopic=fetchTopic></reply>
     </div>
+
+    <ReplyPublish v-if="this.$store.state.user.loginname"
+                  :topicId=topicId
+                  :fetchTopic=fetchTopic></ReplyPublish>
   </div>
 </template>
 <script>
 import 'github-markdown-css'
-import { calTime, titleVal } from '../../util/filter.js'
+import '../../assets/style/markdown.css'
+import { calTime, titleVal } from '../../util/util.js'
 import Reply from './Reply'
+import marked from '../../util/marked.js'
+import { Group, XTextarea, XButton } from 'vux'
+import ReplyPublish from './ReplyPublish'
 export default {
   components: {
-    Reply
+    Reply,
+    Group,
+    XTextarea,
+    XButton,
+    ReplyPublish
   },
   data () {
     return {
       topicId: this.$route.params.topicId,
       topicData: {
         author: {}
-      }
+      },
+      replyText: ''
     }
+  },
+  props: {
+    changeTitle: Function
   },
   computed: {
     create_at () {
@@ -49,24 +71,43 @@ export default {
     },
     tag () {
       return titleVal[this.topicData.tab]
+    },
+    replyTextFormat () {
+      return marked(this.replyText)
     }
   },
   methods: {
     async fetchTopic () {
-      let res = await this.$http.get('/api/topic/' + this.topicId)
+      let res = await this.ajaxAxios.get('/api/topic/' + this.topicId)
       if (res.status === 200 && res['data']['success']) {
         this.topicData = res.data.data
         this.$refs.content.innerHTML = res.data.data.content
       }
+    },
+    async postReply () {
+      const fromData = {
+        accesstoken: this.$store.state.user.accessToken,
+        content: this.replyText
+      }
+      let res = await this.$http.post(`/api//topic/${this.topicId}/replies`, { ...fromData })
+      if (res.status === 200 && res['data']['success']) {
+        this.$vux.toast.text('回复成功', 'bottom')
+        this.fetchTopic()
+      }
+      this.replyText = ''
     }
   },
   created () {
     this.fetchTopic()
+    this.changeTitle('主题')
   }
 }
 </script>
 
 <style lang="less">
+.topic {
+  word-break: break-word;
+}
 .markdown-body {
   border-bottom: 1px solid #e0e0e0;
 }
