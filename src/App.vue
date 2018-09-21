@@ -70,8 +70,8 @@
         <group style="margin-top:20px;">
           <menu-cell iconClass='icon-notice'
                      link="/messages"
-                     title="测试"
-                     @click.native="changeTitle('测试')">
+                     title="消息"
+                     @click.native="changeTitle('消息')">
           </menu-cell>
         </group>
       </div>

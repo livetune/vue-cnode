@@ -49,6 +49,9 @@ const router = new Router({
     {
       path: '/messages',
       name: 'Messages',
+      meta: {
+        requireAuth: true
+      },
       component: Messages
     }
   ]
