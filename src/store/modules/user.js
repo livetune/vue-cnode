@@ -19,7 +19,7 @@ const actions = {
       if (res.status === 200) {
         window.localStorage.setItem(
           'userInfo',
-          JSON.stringify({ ...res.data, accessToken })
+          JSON.stringify({ ...res.data, avatarUrl: res.data.avatar_url, accessToken })
         )
         commit('setUserinfo', { ...res.data, accessToken })
         if (prePath) {

@@ -52,17 +52,13 @@ export default {
   methods: {
     async fetchListData () {
       this.isFetch = true
-      this.$vux.loading.show({
-        text: 'Loading'
-      })
 
-      let res = await this.$http.get('/api/topics', { params: { tab: this.tab, page: this.page } })
+      let res = await this.ajaxAxios.get('/api/topics', { params: { tab: this.tab, page: this.page } })
       if (res.status === 200 && res['data']['success']) {
         this.listData = this.page === 0 ? res.data.data : [...this.listData, ...res.data.data]
         console.log(this.listData)
         this.page++
       }
-      this.$vux.loading.hide()
       this.isFetch = false
     }
   }

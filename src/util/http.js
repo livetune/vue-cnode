@@ -30,7 +30,41 @@ axios.interceptors.response.use(
   },
   function (error) {
     // 对响应错误做点什么
-    return Promise.reject(error)
+    console.log(error)
+    Vue.$vux.loading.hide()
+    if (error.response) {
+      switch (error.response.status) {
+        case 500:
+          Vue.$vux.toast.text('服务器出错', 'bottom')
+          break
+        case 404:
+          Vue.$vux.toast.text('服务器出错', 'bottom')
+          break
+        case 504:
+          Vue.$vux.toast.text('服务器出错', 'bottom')
+          break
+        default:
+          break
+      }
+      return Promise.reject(error)
+    } else {
+      const config = error.config
+      config.loadText = '请求超时，正在重试'
+      console.log(error)
+      if (!config || !config.maxRetryCount) return Promise.reject(error)
+      config.retryCount = config.retryCount || 0
+      if (config.retryCount >= config.maxRetryCount) {
+        Vue.$vux.toast.text('超时太多次了，刷新一下', 'bottom')
+        return Promise(error)
+      }
+      config.retryCount += 1
+      const request = new Promise(resolve => {
+        setTimeout(() => resolve(), config.delay || 1)
+      })
+      return request.then(() => {
+        axios(config)
+      })
+    }
   }
 )
 
