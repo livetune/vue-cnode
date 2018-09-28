@@ -2,6 +2,10 @@
 根据cnode社区提供的api写一个基于vue的webapp。
 主要技术栈：Vue、Vuex、Vue-Router、Vux、Less
 
+### 演示网站
+
+[http://cnode.livetune.xyz](http://cnode.livetune.xyz)
+
 ###安装
 
 项目地址：（`git clone`）

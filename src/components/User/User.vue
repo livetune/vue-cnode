@@ -39,7 +39,6 @@ export default {
   },
   data () {
     return {
-      loginname: this.$route.params.loginname,
       userInfo: {},
       calTime,
       list: []
@@ -47,11 +46,6 @@ export default {
   },
   props: {
     changeTitle: Function
-
-  },
-  created () {
-    this.changeTitle('用户信息')
-    this.fetchUser()
   },
   methods: {
     async fetchUser () {
@@ -67,6 +61,21 @@ export default {
       } else if (type === 'topic') {
         this.list = this.userInfo.recent_topics
       }
+    }
+  },
+  created () {
+    this.changeTitle('用户信息')
+    this.fetchUser()
+  },
+  computed: {
+    loginname () {
+      return this.$route.params.loginname
+    }
+  },
+  watch: {
+    loginname (a, b) {
+      this.changeTitle('用户信息')
+      this.fetchUser()
     }
   }
 }
