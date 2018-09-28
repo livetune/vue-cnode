@@ -9,7 +9,7 @@
              alt="">
         <div>
           <p>{{topicData.author.loginname}}</p>
-          <p>{{create_at}}</p>
+          <p>{{createAt}}</p>
         </div>
       </div>
       <div class="right">
@@ -28,7 +28,7 @@
 
       <reply :floor=key
              :reply=val
-             :author_name=topicData.author.loginname
+             :authorName=topicData.author.loginname
              :topicId=topicId
              :fetchTopic=fetchTopic
              @click.native="$router.push('/user/'+val.author.loginname)"></reply>
@@ -67,7 +67,7 @@ export default {
     changeTitle: Function
   },
   computed: {
-    create_at () {
+    createAt () {
       return '发布于:' + calTime(this.topicData.create_at)
     },
     tag () {

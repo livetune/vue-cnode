@@ -26,8 +26,7 @@
                   slot="title">
 
               <img width="40"
-                   :src="userInfo.avatar_url?userInfo.avatar_url:defaultAvatar
-"
+                   :src="userInfo.avatarUrl?userInfo.avatarUrl:defaultAvatar"
                    alt="">
               <span class="loninname"
                     style="vertical-align:middle;">{{userInfo.loginname?userInfo.loginname:'登录'}}</span>

@@ -28,8 +28,8 @@ export default {
   },
   data () {
     return {
-      has_read_messages: [],
-      hasnot_read_messages: [],
+      hasReadMessages: [],
+      hasnotReadMessages: [],
       calTime,
       list: []
     }
@@ -46,17 +46,16 @@ export default {
     async fetchUser () {
       let res = await this.ajaxAxios.get(`/api/messages`, { params: { accesstoken: this.$store.state.user.accessToken } })
       if (res.status === 200 && res.data.success === true) {
-        this.has_read_messages = res.data.data.has_read_messages
-        this.hasnot_read_messages = res.data.data.hasnot_read_messages
-        this.list = this.hasnot_read_messages
-        console.log(res.data.data.hasnot_read_messages)
+        this.hasReadMessages = res.data.data.has_read_messages
+        this.hasnotReadMessages = res.data.data.hasnot_read_messages
+        this.list = this.hasnotReadMessages
       }
     },
     changeList (type) {
       if (type === 'read') {
-        this.list = this.has_read_messages
+        this.list = this.hasReadMessages
       } else if (type === 'noread') {
-        this.list = this.hasnot_read_messages
+        this.list = this.hasnotReadMessages
       }
     }
   }

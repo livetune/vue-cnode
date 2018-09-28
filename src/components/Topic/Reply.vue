@@ -9,7 +9,7 @@
         <span>{{floor+1}}楼</span>
         <span>{{calTime(reply.create_at)}}</span>
         <span class="author"
-              v-if="reply.author.loginname===author_name">作者</span>
+              v-if="reply.author.loginname===authorName">作者</span>
       </div>
       <div class="user_action"
            v-if="this.$store.state.user.loginname">
@@ -49,7 +49,7 @@ export default {
   },
   props: {
     reply: Object,
-    author_name: String,
+    authorName: String,
     floor: Number,
     topicId: String,
     fetchTopic: Function
@@ -60,7 +60,7 @@ export default {
       this.editorShow = !this.editorShow
     },
     async like () {
-      if (this.reply.author.loginname === this.author_name) {
+      if (this.reply.author.loginname === this.authorName) {
         this.$vux.toast.text('不能帮自己点赞', 'bottom')
         return
       }

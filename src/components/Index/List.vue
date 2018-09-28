@@ -12,12 +12,12 @@
         <div class="list-msg">
           <div class="list-msg-left">
             <div>{{itemData.author.loginname}}</div>
-            <div>{{create_time}}</div>
+            <div>{{createTime}}</div>
           </div>
           <div class="list-msg-right">
             <div>
               <b>{{itemData.reply_count}}</b>/{{itemData.visit_count}}</div>
-            <div>{{last_time}}</div>
+            <div>{{lastTime}}</div>
           </div>
         </div>
       </div>
@@ -35,10 +35,10 @@ export default {
     tag () {
       return this.itemData ? filterTag(this.itemData, titleVal) : ''
     },
-    create_time () {
+    createTime () {
       return calTime(this.itemData.create_at)
     },
-    last_time () {
+    lastTime () {
       return calTime(this.itemData.last_reply_at)
     }
 

@@ -6,7 +6,7 @@ const state = initState
     accessToken: '',
     loginname: '',
     id: '',
-    avatar_url: ''
+    avatarUrl: ''
   }
 
 const actions = {
@@ -40,7 +40,7 @@ const mutations = {
     state.accessToken = accessToken
     state.loginname = loginname
     /*eslint-disable*/
-    state.avatar_url = avatar_url
+    state.avatarUrl = avatar_url
     state.id = id
   }
 }
