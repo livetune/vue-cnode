@@ -26,7 +26,10 @@ const router = new Router({
     {
       path: '/topic/:topicId',
       name: 'Topic',
-      component: Topic
+      component: Topic,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/login',

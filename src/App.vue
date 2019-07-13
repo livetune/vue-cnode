@@ -1,86 +1,84 @@
 <template>
   <div id="app">
-    <x-header style="width: 100%; position: fixed; left: 0px; top: 0px; z-index: 100;"
-              :left-options="{showBack:false}">
-      <span class="nav-icon"
-            @click="drawerVisibility = !drawerVisibility">
-        <x-icon type="navicon"
-                size="35"
-                style="fill:#fff;position:relative;top:-8px;left:-3px;"></x-icon>
+    <x-header
+      style="width: 100%; position: fixed; left: 0px; top: 0px; z-index: 100;"
+      :left-options="{showBack:false}"
+    >
+      <span class="nav-icon" @click="drawerVisibility = !drawerVisibility">
+        <x-icon type="navicon" size="35" style="fill:#fff;position:relative;top:-8px;left:-3px;"></x-icon>
       </span>
-      <router-link to='/Publish'
-                   tag="i"
-                   slot="right"
-                   class="iconfont icon-fabu"
-                   style="font-size:1.5em"></router-link>
+      <router-link
+        to="/Publish"
+        tag="i"
+        slot="right"
+        class="iconfont icon-fabu"
+        style="font-size:1.5em"
+      ></router-link>
       {{title}}
     </x-header>
-    <drawer width="200px;"
-            :show.sync="drawerVisibility">
-
+    <drawer width="200px;" :show.sync="drawerVisibility">
       <div slot="drawer">
         <group style="margin-top:20px;">
-          <cell is-link
-                :link="userInfo.loginname?'/user/livetune':'/login'">
-            <span class="avatar-wrapper"
-                  slot="title">
-
-              <img width="40"
-                   :src="userInfo.avatarUrl?userInfo.avatarUrl:defaultAvatar"
-                   alt="">
-              <span class="loninname"
-                    style="vertical-align:middle;">{{userInfo.loginname?userInfo.loginname:'登录'}}</span>
+          <cell is-link :link="userInfo.loginname?'/user/livetune':'/login'">
+            <span class="avatar-wrapper" slot="title">
+              <img width="40" :src="userInfo.avatarUrl?userInfo.avatarUrl:defaultAvatar" alt />
+              <span
+                class="loninname"
+                style="vertical-align:middle;"
+              >{{userInfo.loginname?userInfo.loginname:'登录'}}</span>
             </span>
           </cell>
-
         </group>
         <group style="margin-top:20px;">
-          <menu-cell iconClass='icon-menu'
-                     link="/"
-                     title="全部"
-                     @click.native="changeTitle('全部')">
-          </menu-cell>
-          <menu-cell iconClass='icon-like-fill'
-                     link="/?tab=good"
-                     title="精华"
-                     @click.native="changeTitle('精华')">
-          </menu-cell>
-          <menu-cell iconClass='icon-share'
-                     link="/?tab=share"
-                     title="分享"
-                     @click.native="changeTitle('分享')">
-          </menu-cell>
-          <menu-cell iconClass='icon-question-circle-fill'
-                     link="/?tab=ask"
-                     title="问答"
-                     @click.native="changeTitle('问答')">
-          </menu-cell>
-          <menu-cell iconClass='icon-peoples'
-                     link="/?tab=job"
-                     title="招聘"
-                     @click.native="changeTitle('招聘')">
-          </menu-cell>
-          <menu-cell iconClass='icon-peoples'
-                     link="/?tab=dev"
-                     title="测试"
-                     @click.native="changeTitle('测试')">
-          </menu-cell>
+          <menu-cell iconClass="icon-menu" link="/" title="全部" @click.native="changeTitle('全部')"></menu-cell>
+          <menu-cell
+            iconClass="icon-like-fill"
+            link="/?tab=good"
+            title="精华"
+            @click.native="changeTitle('精华')"
+          ></menu-cell>
+          <menu-cell
+            iconClass="icon-share"
+            link="/?tab=share"
+            title="分享"
+            @click.native="changeTitle('分享')"
+          ></menu-cell>
+          <menu-cell
+            iconClass="icon-question-circle-fill"
+            link="/?tab=ask"
+            title="问答"
+            @click.native="changeTitle('问答')"
+          ></menu-cell>
+          <menu-cell
+            iconClass="icon-peoples"
+            link="/?tab=job"
+            title="招聘"
+            @click.native="changeTitle('招聘')"
+          ></menu-cell>
+          <menu-cell
+            iconClass="icon-peoples"
+            link="/?tab=dev"
+            title="测试"
+            @click.native="changeTitle('测试')"
+          ></menu-cell>
         </group>
         <group style="margin-top:20px;">
-          <menu-cell iconClass='icon-notice'
-                     link="/messages"
-                     title="消息"
-                     @click.native="changeTitle('消息')">
-          </menu-cell>
+          <menu-cell
+            iconClass="icon-notice"
+            link="/messages"
+            title="消息"
+            @click.native="changeTitle('消息')"
+          ></menu-cell>
         </group>
       </div>
 
       <!-- rourer-view 作为默认插槽内容 -->
-      <div class="view"
-           ref="view">
-        <router-view :changeTitle=changeTitle></router-view>
+      <div class="view" ref="view">
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive" :changeTitle="changeTitle"></router-view>
+        </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive" :changeTitle="changeTitle"></router-view>
       </div>
-
     </drawer>
   </div>
 </template>
@@ -137,12 +135,11 @@ export default {
       }
     }
   }
-
 }
 </script>
 
 <style lang="less">
-@import '~vux/src/styles/reset.less';
+@import "~vux/src/styles/reset.less";
 
 body,
 html {

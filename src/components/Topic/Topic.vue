@@ -1,12 +1,9 @@
 <template>
-  <div class="topic"
-       style="padding: 15px 18px;">
+  <div class="topic" style="padding: 15px 18px;" v-show="viewShow">
     <h2 class="topic-title">{{topicData.title}}</h2>
     <div class="topic-msg">
-      <div class="left"
-           @click="$router.push('/user/'+topicData.author.loginname)">
-        <img :src="topicData.author.avatar_url||''"
-             alt="">
+      <div class="left" @click="$router.push('/user/'+topicData.author.loginname)">
+        <img :src="topicData.author.avatar_url||''" alt />
         <div>
           <p>{{topicData.author.loginname}}</p>
           <p>{{createAt}}</p>
@@ -17,30 +14,29 @@
         <p>{{topicData.visit_count}} 次浏览</p>
       </div>
     </div>
-    <div ref="content"
-         class="markdown-body">
-    </div>
+    <div ref="content" class="markdown-body"></div>
     <h4 class="reply_count">
-      <b>{{topicData.reply_count}}</b> 回复</h4>
-    <div class="reply-wrapper"
-         v-for="(val,key) in topicData.replies"
-         :key=val.id>
-
-      <reply :floor=key
-             :reply=val
-             :authorName=topicData.author.loginname
-             :topicId=topicId
-             :fetchTopic=fetchTopic
-             @click.native="$router.push('/user/'+val.author.loginname)"></reply>
+      <b>{{topicData.reply_count}}</b> 回复
+    </h4>
+    <div class="reply-wrapper" v-for="(val,key) in topicData.replies" :key="val.id">
+      <reply
+        :floor="key"
+        :reply="val"
+        :authorName="topicData.author.loginname"
+        :topicId="topicId"
+        :fetchTopic="fetchTopic"
+        @click.native="$router.push('/user/'+val.author.loginname)"
+      ></reply>
     </div>
 
-    <ReplyPublish v-if="this.$store.state.user.loginname"
-                  :topicId=topicId
-                  :fetchTopic=fetchTopic></ReplyPublish>
+    <ReplyPublish
+      v-if="this.$store.state.user.loginname"
+      :topicId="topicId"
+      :fetchTopic="fetchTopic"
+    ></ReplyPublish>
   </div>
 </template>
 <script>
-
 import { calTime, titleVal } from '../../util/util.js'
 import Reply from './Reply'
 import marked from '../../util/marked.js'
@@ -60,6 +56,7 @@ export default {
       topicData: {
         author: {}
       },
+      viewShow: true,
       replyText: ''
     }
   },
@@ -84,13 +81,16 @@ export default {
         this.topicData = res.data.data
         this.$refs.content.innerHTML = res.data.data.content
       }
+      this.viewShow = true
     },
     async postReply () {
       const fromData = {
         accesstoken: this.$store.state.user.accessToken,
         content: this.replyText
       }
-      let res = await this.$http.post(`/api//topic/${this.topicId}/replies`, { ...fromData })
+      let res = await this.$http.post(`/api//topic/${this.topicId}/replies`, {
+        ...fromData
+      })
       if (res.status === 200 && res['data']['success']) {
         this.$vux.toast.text('回复成功', 'bottom')
         this.fetchTopic()
@@ -101,6 +101,14 @@ export default {
   created () {
     this.fetchTopic()
     this.changeTitle('主题')
+  },
+  activated () {
+    if (this.topicId !== this.$route.params.topicId) {
+      this.topicId = this.$route.params.topicId
+      this.topicData = { author: {} }
+      this.viewShow = false
+      this.fetchTopic()
+    }
   }
 }
 </script>
@@ -108,9 +116,15 @@ export default {
 <style lang="less">
 .topic {
   word-break: break-word;
+  /deep/code {
+    white-space: pre-wrap;
+  }
 }
 .markdown-body {
   border-bottom: 1px solid #e0e0e0;
+  /deep/code {
+    white-space: pre-wrap;
+  }
 }
 .topic-title {
   margin-bottom: 20px;

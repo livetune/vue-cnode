@@ -45,6 +45,8 @@ export default {
       if (res.status === 200 && res['data']['success']) {
         this.$vux.toast.text('回复成功', 'bottom')
         this.fetchTopic()
+      } else {
+        this.$vux.toast.text('回复失败', 'bottom')
       }
       this.replyText = this.replyName ? `@${this.replyName} ` : ''
       this.$emit('replyEnd')

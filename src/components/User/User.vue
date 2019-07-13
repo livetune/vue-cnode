@@ -1,30 +1,20 @@
 <template>
   <div>
     <div class="head">
-      <img :src="userInfo.avatar_url"
-           alt=""
-           class="avatar">
+      <img :src="userInfo.avatar_url" alt class="avatar" />
       <p>{{userInfo.loginname}}</p>
       <p class="score-create">
         <span class="create">注册于{{calTime(userInfo.create_at)}}</span>
         <span class="score">积分: {{userInfo.score}}</span>
       </p>
     </div>
-    <tab :line-width="1"
-         custom-bar-width="60px">
-      <tab-item selected
-                @click.native="changeList('reply')">最近回复</tab-item>
+    <tab :line-width="1" custom-bar-width="60px">
+      <tab-item selected @click.native="changeList('reply')">最近回复</tab-item>
       <tab-item @click.native="changeList('topic')">最新发布</tab-item>
     </tab>
-    <div class="topicList"
-         v-for="(val) in list"
-         :key=val.id>
-      <TopicList :val=val
-                 :calTime=calTime
-                 @click.native="$router.push('/topic/'+val.id)"></TopicList>
-
+    <div class="topicList" v-for="(val) in list" :key="val.id">
+      <TopicList :val="val" :calTime="calTime" @click.native="$router.push('/topic/'+val.id)"></TopicList>
     </div>
-
   </div>
 </template>
 <script>
@@ -75,6 +65,7 @@ export default {
   watch: {
     loginname (a, b) {
       this.changeTitle('用户信息')
+      console.log('change', this.$route)
       this.fetchUser()
     }
   }
