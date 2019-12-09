@@ -113,6 +113,7 @@ export default {
   mounted () {
     if (this.$route.path === '/') {
       if (this.$route.query.tab) {
+        document.title = titleVal[this.$route.query.tab]
         this.title = titleVal[this.$route.query.tab]
       }
     }
